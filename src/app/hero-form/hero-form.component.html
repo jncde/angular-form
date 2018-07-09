@@ -1,13 +1,18 @@
 <div class="container">
   <h1>Hero Form</h1>
-  <form #heroForm="ngForm">
+  <form (ngSubmit)="onSubmit()"   #heroForm="ngForm">
     {{diagnostic}}
     <div class="form-group">
       <label for="name">Name</label>
       <input type="text" class="form-control" id="name"
              required
              [(ngModel)]="model.name" name="name"
-             #spy>
+             #name="ngModel" #spy>
+      <div [hidden]="name.valid || name.pristine"
+           class="alert alert-danger">
+        Name is required
+      </div>
+
       <br>TODO: remove this: {{spy.className}}
     </div>
 
@@ -25,7 +30,9 @@
       </select>
     </div>
 
-    <button type="submit" class="btn btn-success">Submit</button>
+    <button type="submit" class="btn btn-success" [disabled]="!heroForm.form.valid">Submit</button>
+
+    <button type="button" class="btn btn-default" (click)="newHero(); heroForm.reset()">New Hero</button>
 
   </form>
 </div>
